@@ -23,7 +23,6 @@ typeint2 *keygen(int bit)
     srand(time(NULL));
     typeint2 key[8];
     typeint2 *sequence = (typeint2 *) malloc (bit*sizeof(typeint2));
-    typeint temp[4];
     
     uint16_t delta=rand() % bit;
     int i;
@@ -47,21 +46,7 @@ typeint2 *keygen(int bit)
     
     bit/=4;
     for(i=0;i<bit;i+=4)
-    {
-        temp[0]=sequence[i];
-        temp[1]=sequence[i+1];
-        temp[2]=sequence[i+2];
-        temp[3]=sequence[i+3];
-        
-        IDEAencrypt(temp,key);
-        
-        sequence[i]=temp[0];
-        sequence[i+1]=temp[1];
-        sequence[i+2]=temp[2];
-        sequence[i+3]=temp[3];
-
-        
-    }
+        IDEAencrypt(sequence+i,key);
     
     return sequence;
     
