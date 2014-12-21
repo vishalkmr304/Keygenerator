@@ -1,18 +1,21 @@
-//
+ //
 //  Keycreate.c
 //  IDEA
 //
 //  Created by ivan sarno on 02/12/14.
 //  Copyright (c) 2014 ivan sarno. All rights reserved.
 //
+/*
+implementation of key shedule of IDEA, subkey array is allocated in the calling function.
+See official algorithm reference for more details
+*/
 
 #include "Keycreate.h"
 
-
-void keycreate(typeint2 *key, typeint *subkey)
+void keycreate(uint16_t *key, uint16_t *subkey)
 {
     int i,j;
-    for(i=0;i<50;i+=8)
+    for(i=0;i<=48;i+=8)
     {
         for(j=0;j<8;j++)
             subkey[i+j]=key[j];
@@ -20,6 +23,9 @@ void keycreate(typeint2 *key, typeint *subkey)
     }
 }
 
+/*  
+the rotation of 25 bits of the key is implemented by copying elements of the array for the first 16 bits, and shift the remaining bits and adding the remaining digits to next element
+*/
 void keyrotate(uint16_t *key)
 {
     int i;
@@ -35,26 +41,38 @@ void keyrotate(uint16_t *key)
     key[7]=(key[7]<<9)+temp;
     
 }
-
-void deckey(typeint2 *key,typeint *subkey)
+//additive inverse operator
+uint16_t inv(unsigned long long a)
 {
-    typeint tempkey[56];
-    int i;
-    keycreate(key,tempkey);
-    subkey[0]=inverso(tempkey[48],mulmod);
-    subkey[1]=mod-(tempkey[49]);
-    subkey[2]=mod-(tempkey[50]);
-    subkey[3]=inverso(tempkey[51],mulmod);
     
-    for(i=0;i<50;i+=6)
+    return (uint16_t) mod-a;
+}
+
+//decryption subkey generator
+void deckey(uint16_t *key,uint16_t *subkey)
+{
+    uint16_t tempkey[56];
+    int i;
+  
+    keycreate(key,tempkey);
+    subkey[0]=(uint16_t)inverso(tempkey[48],mulmod);
+    subkey[1]=inv(tempkey[49]);
+    subkey[2]=inv(tempkey[50]);
+    subkey[3]=(uint16_t)inverso(tempkey[51],mulmod);
+
+    //preswapped for final operation
+    uint16_t t=tempkey[1];
+    tempkey[1]=tempkey[2];
+    tempkey[2]=t;
+    
+    
+    for(i=0;i<48;i+=6)
     {
         subkey[4+i]=tempkey[46-i];
         subkey[5+i]=tempkey[47-i];
-        subkey[6+i]=inverso(tempkey[42-i],mulmod);
-        subkey[7+i]=mod-(tempkey[44-i]);
-        subkey[8+i]=mod-(tempkey[43-i]);
-        subkey[9+i]=inverso(tempkey[45-i],mulmod);
+        subkey[6+i]=(uint16_t)inverso(tempkey[42-i],mulmod);
+        subkey[7+i]=inv(tempkey[44-i]);
+        subkey[8+i]=inv(tempkey[43-i]);
+        subkey[9+i]=(uint16_t)inverso(tempkey[45-i],mulmod);
     }
-        
-    
 }

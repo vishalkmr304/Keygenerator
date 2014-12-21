@@ -10,21 +10,21 @@
 
 
 
-typeint2 *keygen(int bit)
+uint16_t *keygen(int *bit)
 {
     
     int a;
-    if (a=bit%16)
-        bit +=a;
-    bit/=16;
-    if (a=bit%4)
-        bit +=a;
+    if (a=*bit%16)
+        *bit +=16-a;
+    *bit/=16;
+    if (a=*bit%4)
+        *bit +=4-a;
     
     srand(time(NULL));
-    typeint2 key[8];
-    typeint2 *sequence = (typeint2 *) malloc (bit*sizeof(typeint2));
+    uint16_t key[8];
+    uint16_t *sequence = (uint16_t *) malloc (*bit*sizeof(uint16_t));
     
-    uint16_t delta=rand() % bit;
+    uint16_t delta=rand() % *bit;
     int i;
     
     key[0]=rand();
@@ -38,15 +38,14 @@ typeint2 *keygen(int bit)
     key[4]=rand();
     key[5]=rand();
     
-    for(;i<bit;i++)
+    for(;i<*bit;i++)
         sequence[i]=rand()addmod;
     
     key[6]=rand();
     key[7]=rand();
     
-    bit/=4;
-    for(i=0;i<bit;i+=4)
-        IDEAencrypt(sequence+i,key);
+	IDEA_multi_encrypt(sequence, key, *bit);
+	
     
     return sequence;
     

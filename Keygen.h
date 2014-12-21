@@ -15,6 +15,6 @@
 #include <stdlib.h>
 
 
-typeint2 *keygen(int bit);
+uint16_t *keygen(int *bit);
 
 #endif /* defined(__Keygenerator__Keygen__) */
