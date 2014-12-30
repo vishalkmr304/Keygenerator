@@ -19,8 +19,6 @@ output: unsigned 16 bit int pointer, extra random bit are add to complete last i
 
 !!!ATTENTION!!!
 
-algorithm security not proven formally and the security of generated key in not guaranteed
-
 the security of generated key in not guaranteed
 
 on Windows offers a minor security
