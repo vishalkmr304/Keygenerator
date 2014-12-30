@@ -14,5 +14,6 @@
 #define addmod %65536
 #define mulmod 65537
 #define mod 65536
+#define Unix //Unix or Windows
 
 #endif

@@ -18,9 +18,17 @@ input:  a pointer to number of bit you need
 output: unsigned 16 bit int pointer, extra random bit are add to complete last int, the pointer input is updated with the actual number of uint16
 
 !!!ATTENTION!!!
+<<<<<<< Updated upstream
 algorithm security not proven formally and the security of generated key in not guaranteed
+=======
+the security of generated key in not guaranteed
+>>>>>>> Stashed changes
 
-NOT WORK on Windows
+on Windows offers a minor security
 
+<<<<<<< Updated upstream
 64 bit only
 
+=======
+Remember to set your OS in define file, default is Unix
+>>>>>>> Stashed changes

@@ -31,7 +31,11 @@ uint16_t *keygen(int *bit)
     key[1]=rand();
     
     for(i=0;i<delta;i++)
-        sequence[i]=rand()addmod;
+	{
+		for (a=0;a<15;a++)
+		sequence[i]=(sequence[i]<<1)+(rand()%2);
+	}
+	
     
     key[2]=rand();
     key[3]=rand();
@@ -39,8 +43,11 @@ uint16_t *keygen(int *bit)
     key[5]=rand();
     
     for(;i<*bit;i++)
-        sequence[i]=rand()addmod;
-    
+	{
+		for (a=0;a<15;a++)
+			sequence[i]=(sequence[i]<<1)+(rand()%2);
+	}
+	
     key[6]=rand();
     key[7]=rand();
     

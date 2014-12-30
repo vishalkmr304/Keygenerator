@@ -15,7 +15,13 @@ int main(int argc,char **argv)
     if (argc<2)
     {
         printf("insert number of bits required\n");
+#ifdef Unix
         scanf("%d", &bit);
+#endif
+        
+#ifdef Windows
+        scanf_s("%d", &bit);
+#endif
     }
     else
     {
@@ -24,7 +30,14 @@ int main(int argc,char **argv)
     
     uint16_t *sequence=keygen(&bit);
     
+#ifdef Unix
     FILE *out = fopen("output", "wb");
+#endif
+    
+#ifdef Windows
+    FILE *out;
+    fopen_s(&out,"output", "wb");
+#endif
     
     fwrite(sequence, sizeof(uint16_t), bit, out);
     
